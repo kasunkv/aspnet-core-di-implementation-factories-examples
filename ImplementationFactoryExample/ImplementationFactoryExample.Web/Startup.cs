@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ImplementationFactoryExample.Web.Builders;
+using ImplementationFactoryExample.Web.Models;
+using ImplementationFactoryExample.Web.Services;
+using ImplementationFactoryExample.Web.Services.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -24,6 +28,16 @@ namespace ImplementationFactoryExample.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IDiscountProcessor, OrderDiscountProcessor>();
+            services.AddScoped<Discount>(sp =>
+            {
+                return new DiscountBuilder()
+                    .WithMinimumBillAmount(1000)
+                    .WithMinimumItemCount(3)
+                    .WithPercentage(10)
+                    .Build();
+            });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -57,7 +71,7 @@ namespace ImplementationFactoryExample.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Order}/{action=Index}/{id?}");
             });
         }
     }
