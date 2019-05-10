@@ -1,0 +1,40 @@
+﻿
+@model ImplementationFactoryExample.Web.Models.OrderViewModel
+
+@{
+    ViewData["Title"] = "Order";
+}
+<div class="text-left">
+    <h1>New Order</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Order">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="ItemName" class="control-label text-left"></label>
+                    <input asp-for="ItemName" class="form-control" />
+                    <span asp-validation-for="ItemName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label text-left"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Quantity" class="control-label text-left"></label>
+                    <input asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Proceed To Checkout" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
